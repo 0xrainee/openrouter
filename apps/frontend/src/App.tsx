@@ -1,39 +1,39 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { APITester } from "./APITester";
+import type { App } from "backend";
 import "./index.css";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { treaty } from "@elysiajs/eden";
+import { Landing } from "./pages/Landing";
+import { Signup } from "./pages/Signup";
+import { Signin } from "./pages/Signin";
+import { Dashboard } from "./pages/Dashboard";
+import { Credits } from "./pages/Credits";
+import { ApiKeys } from "./pages/ApiKeys";
 
-import logo from "./logo.svg";
-import reactLogo from "./react.svg";
+const client = treaty<App>("localhost:3000", {
+  fetch: {
+    credentials: "include"
+  }
+});
+
+const queryClient = new QueryClient();
 
 export function App() {
   return (
-    <div className="container mx-auto p-8 text-center relative z-10">
-      <div className="flex justify-center items-center gap-8 mb-8">
-        <img
-          src={logo}
-          alt="Bun Logo"
-          className="h-36 p-6 transition-all duration-300 hover:drop-shadow-[0_0_2em_#646cffaa] scale-120"
-        />
-        <img
-          src={reactLogo}
-          alt="React Logo"
-          className="h-36 p-6 transition-all duration-300 hover:drop-shadow-[0_0_2em_#61dafbaa] [animation:spin_20s_linear_infinite]"
-        />
-      </div>
-
-      <Card className="bg-card/50 backdrop-blur-sm border-muted">
-        <CardContent className="pt-6">
-          <h1 className="text-5xl font-bold my-4 leading-tight">Bun + React</h1>
-          <p>
-            Edit{" "}
-            <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">src/App.tsx</code> and
-            save to test HMR
-          </p>
-          <APITester />
-        </CardContent>
-      </Card>
-    </div>
-  );
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route>
+            <Route path={"/"} element={<Landing />} />
+            <Route path={"/signup"} element={<Signup />} />
+            <Route path={"/signin"} element={<Signin />} />
+            <Route path={"/dashboard"} element={<Dashboard />} />
+            <Route path={"/credits"} element={<Credits />} />
+            <Route path={"/api-keys"} element={<ApiKeys />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
+  )
 }
-
 export default App;
