@@ -34,7 +34,7 @@ A self-hosted LLM routing API that proxies requests across multiple AI providers
 ## Getting started
 
 ```bash
-git clone https://github.com/your-username/openrouter
+git clone https://github.com/acegikmoo/openrouter
 cd openrouter
 bun install
 ```
